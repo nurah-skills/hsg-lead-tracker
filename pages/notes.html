@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en" data-page="app">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; form-action 'self'; base-uri 'self'; object-src 'none'">
+  <meta name="theme-color" content="#F1F6F3" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0A130F" media="(prefers-color-scheme: dark)">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="robots" content="noindex">
+  <meta name="description" content="The follow-up notes people recorded against leads.">
+  <title>Note quality · Lead tracker</title>
+  <link rel="icon" href="../assets/img/logo.svg?v=64898787" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Nunito:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="../assets/css/styles.css?v=f127e8ce">
+  <script src="../assets/js/shared/session.js?v=98c5c7e8"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="app" id="app">
+    <aside class="sidebar" id="sidebar" aria-label="Main menu">
+      <a class="brand" href="actions.html"><img src="../assets/img/logo.svg?v=64898787" width="36" height="36" alt=""><span class="brand-text"><b>Lead tracker</b><small>HSG sales</small></span></a>
+
+      <nav class="menu" aria-label="Pages">
+        <a class="menu-item" href="actions.html">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>
+          <span>Daily actions</span>
+        </a>
+        <a class="menu-item" href="team.html">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5a5.5 5.5 0 0 1 11 0"/><path d="M16.5 6.2a3 3 0 0 1 0 5.8M17.5 19.5a5.4 5.4 0 0 0-2.2-4.3"/></svg>
+          <span>By salesperson</span>
+        </a>
+        <p class="menu-label">Leads</p>
+        <a class="menu-item" href="waiting.html">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>
+          <span>Waiting for evidence</span>
+        </a>
+        <a class="menu-item" href="notes.html" aria-current="page">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5h9l4 4V20a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1z"/><path d="M14.5 3.5V8H19"/><path d="M8.5 13h7M8.5 16.5h4"/></svg>
+          <span>Note quality</span>
+        </a>
+        <p class="menu-label">Forms</p>
+        <a class="menu-item" href="forms.html">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8 8.5h8M8 12.5h8M8 16.5h4"/></svg>
+          <span>Forms and alerts</span>
+        </a>
+        <a class="menu-item" href="repairs.html">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a3.6 3.6 0 0 0 4.6 4.6l-8.6 8.6a2.2 2.2 0 0 1-3.1-3.1z"/><path d="M5 5l3 3"/></svg>
+          <span>Repairs and checks</span>
+        </a>
+        <p class="menu-label">Evidence</p>
+        <a class="menu-item" href="sources.html">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>
+          <span>Sources and coverage</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-user">
+        <span class="avatar" id="user-initials" aria-hidden="true"></span>
+        <div><b id="user-name"></b><small id="user-role"></small></div>
+        <button class="icon-button" id="sign-out" type="button" aria-label="Sign out" title="Sign out">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg>
+        </button>
+      </div>
+    </aside>
+
+    <div class="scrim" id="scrim"></div>
+
+    <div class="app-body">
+      <header class="topbar">
+        <button class="icon-button" id="menu-button" type="button" aria-label="Open menu" aria-controls="sidebar" aria-expanded="false">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+        <a class="brand" href="actions.html"><img src="../assets/img/logo.svg?v=64898787" width="30" height="30" alt=""><span>Lead tracker</span></a>
+      </header>
+
+      <main class="app-main" id="main" tabindex="-1">
+        <div class="page-header">
+          <div>
+            <h1>Note quality</h1>
+            <p class="page-note">What people wrote against a lead, and whether the next person could use it.</p>
+          </div>
+        </div>
+
+        <div class="controls">
+          <div class="segmented segmented-four" id="range-picker" role="group" aria-label="Period"></div>
+          <label class="sr-only" for="college-filter">College</label>
+          <select class="select" id="college-filter"></select>
+          <label class="sr-only" for="person-filter">Salesperson</label>
+          <select class="select" id="person-filter"></select>
+          <label class="sr-only" for="lead-search">Search the leads</label>
+          <input class="search" id="lead-search" type="search" placeholder="Search a person, a form or a lead" autocomplete="off">
+          <button class="button button-secondary button-inline" id="filters-clear" type="button" hidden>Show everything</button>
+        </div>
+
+        <p class="panel-note" id="notes-note"></p>
+
+        <section class="open-section" aria-labelledby="weight-grid-title">
+          <h2 class="sr-only" id="weight-grid-title">Choose a kind of note</h2>
+          <div class="category-grid" id="weight-grid"></div>
+        </section>
+
+        <section id="weight-view" aria-labelledby="weight-title" hidden>
+          <div class="category-head">
+            <nav class="trail" id="notes-trail" aria-label="Where you are"></nav>
+            <div class="category-heading">
+              <h2 id="weight-title" tabindex="-1"></h2>
+              <p class="panel-note" id="weight-note"></p>
+            </div>
+          </div>
+          <p class="panel-note" id="weight-detail"></p>
+          <section class="panel">
+            <ul class="note-list" id="note-list"></ul>
+          </section>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <script src="../assets/js/shared/data.js?v=b13ce8c8"></script>
+  <script src="../assets/js/shared/app.js?v=46b20a32"></script>
+  <script src="../assets/js/shared/charts.js?v=c7a8f4a5"></script>
+  <script src="../assets/js/shared/leads.js?v=f2672dc6"></script>
+  <script src="../assets/js/pages/notes.js?v=fe144703"></script>
+</body>
+</html>
