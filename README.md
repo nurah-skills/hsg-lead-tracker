@@ -8,9 +8,10 @@ Every figure on this board is made up. No real person, form, lead or sheet is in
 
 ## Trying it
 
-Open the live link and choose **Look around as a manager** or **Look around as a salesperson**. No account is needed and nothing is saved.
+Open the live link and choose a role. No account is needed and nothing is saved.
 
-- A **manager** sees every salesperson, and can record a decision on a repair.
+- A **sales manager** sees every salesperson, and can record a decision on a repair.
+- A **marketing manager** sees the same. They are on this board because they build and own the forms the leads arrive on, so a finding or a repair is theirs to settle.
 - A **salesperson** sees the leads allocated to them, and nothing else. The salesperson filter is set to them and locked.
 
 ## Pages

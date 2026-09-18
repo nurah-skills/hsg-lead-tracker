@@ -1,12 +1,20 @@
 // There are no real accounts yet. The demo sign-in just remembers a sample person in this browser.
 const SESSION_KEY = 'hsg-leads-session';
 
-// Two sample accounts, because a manager and a salesperson are shown different things
+// Three sample accounts. A manager sees everyone; a salesperson sees their own leads.
+// Marketing count as a manager here because they build and own the forms the leads arrive on.
 const DEMO_USERS = {
   manager: {
     name: 'Refiloe Sibanda',
     role: 'Sales manager',
     team: 'HSG sales',
+    manager: true,
+    person: null
+  },
+  marketing: {
+    name: 'Nadia Steenkamp',
+    role: 'Marketing manager',
+    team: 'HSG marketing',
     manager: true,
     person: null
   },
