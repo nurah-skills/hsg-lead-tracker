@@ -38,7 +38,7 @@ function showLeadNote(id, rows) {
   const filters = activeLeadFilters();
   const period = leadState.range === 'all' ? 'every day the board has read'
     : leadState.range === 'today' ? `today, ${readable(SNAPSHOT.today)}`
-      : `the ${rangeLabel().toLowerCase()} to ${readable(SNAPSHOT.today)}`;
+      : `the last ${rangeLabel().toLowerCase()} to ${readable(SNAPSHOT.today)}`;
   holder.textContent = filters.length
     ? `${formatNumber(rows.length)} lead records · ${period} · filtered by ${filters.join(' and ')}`
     : `${formatNumber(rows.length)} lead records · ${period}`;

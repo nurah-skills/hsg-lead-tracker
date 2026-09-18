@@ -349,9 +349,9 @@ function leadsIn({ from, to, college = 'All', person = 'All', form = 'All' } = {
 
 const RANGES = [
   ['today', 'Today', 0],
-  ['week', 'Last 7 days', 6],
-  ['month', 'Last 30 days', 29],
-  ['all', 'Everything read', 44]
+  ['week', '7 days', 6],
+  ['month', '30 days', 29],
+  ['all', 'All read', 44]
 ];
 
 const rangeFrom = (key) => {
