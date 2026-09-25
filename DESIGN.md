@@ -1,39 +1,47 @@
 # How this board is built
 
+> **This board follows the Service Board design system.** Its tokens, type, spacing,
+> radii and component rules come from there, so the boards in the family read as one
+> thing. Where this file and the system disagree, the system wins — except for the one
+> deviation recorded under Colour.
+
 The lead tracker, the [Sales scoreboard](https://nurah-skills.github.io/every-sale-matters/) and the [Mailer board](https://nurah-skills.github.io/hsg-mailer-management/) share one design. Same palette, same two faces, same three shapes, same shell. A person who knows one board can read the others without learning anything new. This file is the lead tracker's copy of that agreement; where it differs, it is because this board has something the others do not, never because a choice drifted.
 
 ## Colour
 
-Colours live as custom properties on `:root` in `assets/css/styles.css`, redefined once under `@media (prefers-color-scheme: dark)`. Nothing in the stylesheet uses a raw colour value, with two deliberate exceptions noted below — if a new colour is needed, it becomes a token first.
+The palette is the Service Board system's, light only. The boards are read at a desk in
+office light and on meeting-room projectors, so there is no dark theme.
 
-| Token | Light | Dark | Used for |
-| --- | --- | --- | --- |
-| `--page` | `#F1F6F3` | `#0A130F` | The ground behind everything |
-| `--card` | `#FFFFFF` | `#12201A` | Panels, tiles, the menu, the raised surfaces |
-| `--field` | `#E6EEE9` | `#1A2B24` | Inputs, chip backgrounds, tracks |
-| `--ink` | `#11211B` | `#E7F0EB` | Body text |
-| `--muted` | `#52665D` | `#96A9A0` | Second-line text, labels, captions |
-| `--line` | `#D6E4DC` | `#26382F` | Hairlines and dividers |
-| `--navy` / `--navy-deep` | `#14352C` / `#0C211A` | `#143027` / `#0C1F19` | The dark card art, the sign-in panel |
-| `--accent` | `#17A57C` | `#3FBF95` | The green both boards are known by |
-| `--accent-ink` | `#0A6B50` | `#7FDCBB` | Links, and text on green |
-| `--college-sa` / `--college-mc` / `--college-bv` | teal / red / navy | lighter versions | Skills Academy, Matric College and Bellview, wherever a chart splits by college |
-| `--focus` | `#0F766E` | `#6EE7C4` | The focus ring |
+| Token | Value | Used for |
+| --- | --- | --- |
+| `--page` | `#F4F5F8` | The cool grey canvas behind every card |
+| `--card` | `#FFFFFF` | Cards, the sidebar, controls |
+| `--subtle` | `#FAFBFC` | Table headers, row hover, the user block |
+| `--ink` | `#0F172A` | Headings, figures and body text |
+| `--ink-2` | `#334155` | Secondary text: menu rows, table cells, neutral pills |
+| `--muted` | `#5B6878` | Notes, labels, chart axes |
+| `--line` | `#E7E9EE` | The hairline every surface is defined by |
+| `--accent` | `#2F6FEB` | Charts, focus rings. Never text |
+| `--accent-ink` | `#1D56C9` | Link and accent text |
+| `--navy` | `#0E1B3D` | Primary buttons, the current menu icon, the dark card art |
 
-**Matric College's red is a college colour, not a verdict.** Every chart that uses the college colours names them in its key, and a state still lives in a chip or a tinted card, never in a bar or a slice.
+**The State Colour Rule.** Green means on track, amber means attention, red means late,
+and they mean nothing else. They appear as a soft pill, a thin meter or a short phrase —
+never as a card fill.
 
-**The three status colours** carry meaning and are used nowhere decorative: red for stop (needs repair, waiting 8 days or more, nothing recorded), yellow for hold (fixed but unchecked, waiting 4 to 7 days), green for go (checked and passed, something recorded).
-
-**Contrast.** Every text colour measures at least 4.5:1 against the surface behind it, in both themes, measured against its own tint rather than the page.
+**One deviation from the system, deliberately.** The system sets `--muted` to `#64748B`,
+and its own note warns that this reaches only 4.4:1 on the page. These boards also use
+`--field` and the segmented track as surfaces, where it falls to 4.17:1 and 4.02:1 —
+below the system's own 4.5:1 requirement. One notch darker, `#5B6878`, clears 4.5:1 on
+all five grounds these boards actually use.
 
 ## Type
 
-Two faces, from Google Fonts:
+One face, **Geist**, at 400/500/600/700, carries everything. **Geist Mono** at 500 is for
+figures that should read like an instrument, and never for words. Both load from Google
+Fonts, the only external resource the content security policy allows.
 
-- **Archivo** (500/600/700) for headings, figures and anything counted.
-- **Nunito** (400/600/700) for running text.
-
-Figures use `font-variant-numeric: tabular-nums` wherever they line up in a column, so a changing number does not shift the ones beside it.
+Every figure, table and scorecard uses `font-variant-numeric: tabular-nums`.
 
 ## Space and shape
 
