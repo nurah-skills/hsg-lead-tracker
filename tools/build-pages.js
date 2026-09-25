@@ -139,7 +139,7 @@ ${body}
 
 // The body of each page: the markup the page script fills in.
 const BODIES = {
-  actions: `        <nav class="start-here" id="start-here" aria-label="Where to start"></nav>
+  actions: `        <div class="start-here" id="start-here"></div>
 
 ${filters()}
 
