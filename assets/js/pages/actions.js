@@ -55,20 +55,13 @@ function showStartHere(rows) {
     { count: NOTES.filter((note) => noteWeight(note.text) === 'thin').length, one: 'one-word note', many: 'one-word notes', href: 'notes.html#thin', tone: 'is-hold' }
   ].filter((item) => item.count);
 
+  // The same items, said as one sentence with the figure in it.
   const holder = document.getElementById('start-here');
-  holder.replaceChildren();
-  if (!items.length) {
-    holder.append(create('p', 'start-empty', 'Nothing is waiting on a manager today.'));
-    return;
-  }
-
-  holder.append(create('b', 'start-lead', 'Where to start'));
-  items.forEach((item) => {
-    const link = create('a', `start-item ${item.tone}`);
-    link.href = item.href;
-    link.append(create('b', '', formatNumber(item.count)), create('span', '', item.count === 1 ? item.one : item.many));
-    holder.append(link);
-  });
+  holder.replaceChildren(buildBanner(items, {
+    action: 'Open the waiting list',
+    calmTitle: 'Nothing is waiting on a manager.',
+    calmNote: 'Every lead in this selection has something recorded against it.'
+  }));
 }
 
 function showTiles(rows) {
