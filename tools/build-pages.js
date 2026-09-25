@@ -130,6 +130,7 @@ ${body}
 
   <script src="../assets/js/shared/data.js"></script>
   <script src="../assets/js/shared/app.js"></script>
+  <script src="../assets/js/shared/views.js"></script>
   <script src="../assets/js/shared/charts.js"></script>
   <script src="../assets/js/shared/leads.js"></script>
   <script src="../assets/js/pages/${page.script}.js"></script>
@@ -274,6 +275,7 @@ ${filters()}
           <select class="select" id="form-college"></select>
           <label class="sr-only" for="form-search">Search the forms</label>
           <input class="search" id="form-search" type="search" placeholder="Search a form or an owner" autocomplete="off">
+          <div class="views" id="saved-views"></div>
           <button class="button button-secondary button-inline" id="forms-clear" type="button" hidden>Show every form</button>
         </div>
 
@@ -312,6 +314,7 @@ ${filters()}
   repairs: `        <div class="controls">
           <label class="sr-only" for="repair-search">Search the repairs</label>
           <input class="search" id="repair-search" type="search" placeholder="Search a form, a finding or an owner" autocomplete="off">
+          <div class="views" id="saved-views"></div>
           <button class="button button-secondary button-inline" id="repairs-clear" type="button" hidden>Show every repair</button>
         </div>
 
@@ -371,6 +374,7 @@ ${range}          <label class="sr-only" for="college-filter">College</label>
           <select class="select" id="person-filter"></select>
           <label class="sr-only" for="lead-search">Search the leads</label>
           <input class="search" id="lead-search" type="search" placeholder="Search a person, a form or a lead" autocomplete="off">
+          <div class="views" id="saved-views"></div>
           <button class="button button-secondary button-inline" id="filters-clear" type="button" hidden>Show everything</button>
         </div>`;
 }
