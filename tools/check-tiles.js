@@ -13,7 +13,7 @@ const path = require('path');
 
 const PAGES = path.join(__dirname, '..', 'assets', 'js', 'pages');
 
-// Keys at the top level of one object literal. Nested objects — change, watch, spark —
+// Keys at the top level of one object literal. Nested objects — change, watch —
 // are stepped over, so `change: { tone: ... }` never looks like a key of the tile.
 function topLevelKeys(text) {
   const keys = [];

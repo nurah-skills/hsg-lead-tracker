@@ -146,15 +146,14 @@ const BODIES = {
 
 ${filters()}
 
-        <p class="panel-note" id="lead-note"></p>
+        <p class="panel-note" id="lead-note" hidden></p>
 
-        <section class="tiles tiles-four" id="lead-tiles" aria-label="Totals"></section>
+        <section class="tiles tiles-three" id="lead-tiles" aria-label="Totals"></section>
 
         <div class="grid">
           <section class="panel span-7" aria-labelledby="ages-title">
             <div class="panel-head">
               <h2 id="ages-title">How long leads have been waiting</h2>
-              <a class="text-link" href="waiting.html">Open the waiting list</a>
             </div>
             <div id="age-chart"></div>
             <p class="panel-note">Counted from the day the form was submitted to today, for leads with nothing recorded against them.</p>
@@ -170,7 +169,7 @@ ${filters()}
 
           <section class="panel span-12" aria-labelledby="questions-title">
             <div class="panel-head">
-              <h2 id="questions-title">Four questions, in order</h2>
+              <h2 id="questions-title">Five questions, in order</h2>
             </div>
             <ul class="decision-list" id="question-list"></ul>
           </section>
@@ -181,7 +180,7 @@ ${filters()}
               <a class="text-link" href="notes.html">Open the notes</a>
             </div>
             <div id="status-chart"></div>
-            <p class="panel-note">The latest status on each lead in this selection. A blank status does not prove nothing was done.</p>
+            <p class="panel-note">The latest status on each lead that carries one. Leads with none are under What evidence there is.</p>
           </section>
 
           <section class="panel span-5" aria-labelledby="supply-title">
@@ -195,7 +194,7 @@ ${filters()}
 
   team: `${filters()}
 
-        <p class="panel-note" id="team-note"></p>
+        <p class="panel-note" id="team-note" hidden></p>
 
         <section class="tiles tiles-four" id="team-tiles" aria-label="Totals"></section>
 
@@ -372,11 +371,14 @@ function filters(withoutRange) {
   return `        <div class="controls">
 ${range}          <label class="sr-only" for="college-filter">College</label>
           <select class="select" id="college-filter"></select>
-          <label class="sr-only" for="person-filter">Salesperson</label>
-          <select class="select" id="person-filter"></select>
           <label class="sr-only" for="lead-search">Search the leads</label>
           <input class="search" id="lead-search" type="search" placeholder="Search a person, a form or a lead" autocomplete="off">
-          <div class="views" id="saved-views"></div>
+          <button class="button button-secondary button-inline more-filters" id="more-filters" type="button" aria-expanded="false" aria-controls="more-filter-set">More filters</button>
+          <div class="more-filter-set" id="more-filter-set" hidden>
+            <label class="sr-only" for="person-filter">Salesperson</label>
+            <select class="select" id="person-filter"></select>
+            <div class="views" id="saved-views"></div>
+          </div>
           <button class="button button-secondary button-inline" id="filters-clear" type="button" hidden>Show everything</button>
         </div>`;
 }

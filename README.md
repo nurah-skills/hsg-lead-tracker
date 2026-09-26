@@ -18,7 +18,7 @@ Open the live link and choose a role. No account is needed and nothing is saved.
 
 | Page | What it does |
 | --- | --- |
-| `pages/actions.html` | The landing page. **Where to start** across the top: leads waiting over a week, forms with a finding, repairs waiting on a check, one-word notes. Then four figures, how long leads have been waiting, what evidence there is, the five questions in the order they can be answered, what people recorded, and leads arriving by day. |
+| `pages/actions.html` | The landing page. **Where to start** across the top: leads waiting over a week, forms with a finding, repairs waiting on a check, one-word notes. Then three figures (lead records, something recorded, days to first evidence), how long leads have been waiting, what evidence there is, the five questions in the order they can be answered, what people recorded, and leads arriving by day. |
 | `pages/team.html` | Every salesperson in the selection: leads given, leads a day, how much was recorded, the middle number of days to first evidence, and how many of their leads have waited over a week. Open one to see their own figures and their leads, longest wait first. |
 | `pages/waiting.html` | Leads with nothing recorded against them, opened by how long they have waited — same day, 1 to 3 days, 4 to 7, 8 to 14, 15 or more. Tick rows and **Export these rows** saves just those. |
 | `pages/notes.html` | The follow-up notes people wrote, opened by how much they say: **Says what happened**, **Barely a note**, **One word**. |

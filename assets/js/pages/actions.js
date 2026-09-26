@@ -1,33 +1,37 @@
 setUpShell();
 
-// The four questions, in the order they can honestly be answered.
-// Each one says what it can see and what it cannot, then offers the way in.
+// The five questions, in the order they can honestly be answered.
+// Each one says what it can see and what it cannot, then offers the way in. The counts
+// the banner, the figures and the charts already give are not said again here.
 function questions(rows) {
   const totals = totalsFor(rows);
   const openForms = FORMS.filter(([, , , , state]) => state !== 'live');
+  const noOwner = FORMS.filter(([, , , , state]) => state === 'no-owner').length;
   const unchecked = REPAIRS.filter((repair) => repair.state !== 'passed');
 
   return [
     {
       title: 'Did every lead arrive?',
       state: openForms.length ? { tone: 'changed', text: 'Not settled' } : { tone: 'good', text: 'Nothing open' },
-      detail: `${formatNumber(COVERAGE.forms)} forms are in the register and ${formatNumber(openForms.length)} of them have a finding against them. Nothing here compares submission numbers against what landed in a sheet, so a missing lead would not show up.`,
+      detail: 'Nothing here compares submission numbers against what landed in a sheet, so a missing lead would not show up.',
       action: 'Settle the findings on the forms first. Until a form is confirmed, its leads cannot be counted with any confidence.',
       link: ['forms.html', 'Open forms and alerts']
     },
     {
       title: 'Who owns it?',
-      state: { tone: 'waiting', text: `${formatNumber(totals.people)} people in view` },
-      detail: `${formatNumber(totals.leads)} lead records in this selection sit with ${formatNumber(totals.people)} salespeople across ${formatNumber(totals.forms)} forms. Two forms have nobody recorded against them at all.`,
+      state: noOwner ? { tone: 'waiting', text: `${formatNumber(noOwner)} with no owner` } : { tone: 'good', text: 'Every form owned' },
+      detail: noOwner
+        ? `Every lead in this selection sits with a named salesperson, but ${noOwner === 1 ? 'one form has' : `${formatNumber(noOwner)} forms have`} nobody recorded against ${noOwner === 1 ? 'it' : 'them'} at all.`
+        : 'Every lead in this selection sits with a named salesperson, and every form has an owner.',
       action: 'Give every form one named owner. Two owners is the same as none.',
       link: ['forms.html#no-owner', 'Open the forms with no owner']
     },
     {
       title: 'What happened next?',
       state: totals.workedRate < 0.25 ? { tone: 'changed', text: 'Thin' } : { tone: 'good', text: 'Recorded' },
-      detail: `${formatNumber(totals.worked)} of ${formatNumber(totals.leads)} records carry a status, and ${formatNumber(totals.dated)} of those also carry a date. A blank row does not prove nobody phoned — it proves nobody wrote it down.`,
+      detail: 'A blank row does not prove nobody phoned. It proves nobody wrote it down.',
       action: 'Agree that a status and a date go on the row at the time, not at the end of the week.',
-      link: ['waiting.html', 'Open the waiting list']
+      link: ['team.html', 'Open it by salesperson']
     },
     {
       title: 'Did it become a sale?',
@@ -38,7 +42,7 @@ function questions(rows) {
     },
     {
       title: 'Were the repairs checked?',
-      state: unchecked.length ? { tone: 'waiting', text: `${formatNumber(unchecked.length)} unchecked` } : { tone: 'good', text: 'All checked' },
+      state: unchecked.length ? { tone: 'waiting', text: 'Not all checked' } : { tone: 'good', text: 'All checked' },
       detail: `${formatNumber(REPAIRS.length)} repairs are on the register. ${formatNumber(REPAIRS.filter((r) => r.state === 'passed').length)} were tested after the fix with the evidence written down.`,
       action: 'A repair is not finished until someone submits a test entry and writes down where it landed.',
       link: ['repairs.html#fixed', 'Open the repairs waiting on a check']
@@ -49,16 +53,17 @@ function questions(rows) {
 function showStartHere(rows) {
   const totals = totalsFor(rows);
   const items = [
-    { count: totals.stale, one: 'lead waiting over a week', many: 'leads waiting over a week', href: 'waiting.html', tone: 'is-stop' },
-    { count: FORMS.filter(([, , , , state]) => state !== 'live').length, one: 'form with a finding', many: 'forms with a finding', href: 'forms.html', tone: 'is-hold' },
-    { count: REPAIRS.filter((repair) => repair.state === 'fixed').length, one: 'repair waiting on a check', many: 'repairs waiting on a check', href: 'repairs.html#fixed', tone: 'is-hold' },
-    { count: NOTES.filter((note) => noteWeight(note.text) === 'thin').length, one: 'one-word note', many: 'one-word notes', href: 'notes.html#thin', tone: 'is-hold' }
+    { count: totals.stale, one: 'lead waiting over a week', many: 'leads waiting over a week', href: 'waiting.html', action: 'Open the waiting list', tone: 'is-stop' },
+    { count: FORMS.filter(([, , , , state]) => state !== 'live').length, one: 'form with a finding', many: 'forms with a finding', href: 'forms.html', action: 'Open forms and alerts', tone: 'is-hold' },
+    { count: REPAIRS.filter((repair) => repair.state === 'fixed').length, one: 'repair waiting on a check', many: 'repairs waiting on a check', href: 'repairs.html#fixed', action: 'Open the repairs', tone: 'is-hold' },
+    { count: NOTES.filter((note) => noteWeight(note.text) === 'thin').length, one: 'one-word note', many: 'one-word notes', href: 'notes.html#thin', action: 'Open the one-word notes', tone: 'is-hold' }
   ].filter((item) => item.count);
 
   // The same items, said as one sentence with the figure in it.
   const holder = document.getElementById('start-here');
+  // The button names where the banner's own figure leads, whichever item that is
   holder.replaceChildren(buildBanner(items, {
-    action: 'Open the waiting list',
+    action: items.length ? items[0].action : '',
     calmTitle: 'Nothing is waiting on a manager.',
     calmNote: 'Every lead in this selection has something recorded against it.'
   }));
@@ -71,16 +76,15 @@ function redrawTiles() {
 function showTiles(rows) {
   const totals = totalsFor(rows);
   const speed = speedOf(rows);
-  const days = [...new Set(rows.map((lead) => lead.date))].sort().slice(-10);
 
+  // Three figures. Leads waiting over a week is the banner's figure, and the charts
+  // below carry the breakdowns, so none of it is said again inside a card.
   const tiles = [
     {
       label: 'Lead records', icon: ICONS.rows, tone: 'is-info',
       value: formatNumber(totals.leads),
       watch: { value: totals.leads, unit: 'records', better: null },
-      note: `${formatNumber(totals.people)} salespeople · ${formatNumber(totals.forms)} forms`,
-      spark: days.map((date) => rows.filter((lead) => lead.date === date).length),
-      sparkLabel: 'Leads arriving on each of the last ten days',
+      note: `${formatNumber(totals.people)} ${totals.people === 1 ? 'salesperson' : 'salespeople'} · ${formatNumber(totals.forms)} ${totals.forms === 1 ? 'form' : 'forms'}`,
       about: 'One row per submission, counted once. It is what the sheet holds, not what the forms sent — nothing here checks that every submission arrived.'
     },
     {
@@ -88,18 +92,7 @@ function showTiles(rows) {
       value: formatPercent(totals.workedRate),
       watch: { value: Math.round(totals.workedRate * 100), unit: 'per cent', better: 'above' },
       note: `${formatNumber(totals.worked)} of ${formatNumber(totals.leads)} records`,
-      spark: WORKED_STATUSES.map((status) => rows.filter((lead) => lead.status === status).length),
-      sparkLabel: 'How many carry each status', sparkMark: 'biggest',
       about: 'A status, a note or a worked marker is on the row. It does not prove the person was reached, or that the contact was any good.'
-    },
-    {
-      label: 'Nothing after 7 days', icon: ICONS.alert, tone: 'is-warn',
-      value: formatNumber(totals.stale),
-      watch: { value: totals.stale, unit: 'records', better: 'below' },
-      note: 'Counted from the submission date to today',
-      spark: AGE_BANDS.map(([key]) => rows.filter((lead) => !lead.status && bandOf(lead.waitingDays) === key).length),
-      sparkLabel: 'Leads with nothing recorded, by how long they have waited', sparkMark: 'biggest',
-      about: 'Records with nothing written against them a week or more after the form was submitted. Check the sheet before judging anyone: the work may have happened and gone unrecorded.'
     },
     {
       label: 'Days to first evidence', icon: ICONS.clock, tone: '',
@@ -162,11 +155,11 @@ function showStatuses(rows) {
     .map(([name, tone]) => ({ label: name, value: rows.filter((lead) => lead.status === name).length, colour: STATUS_COLOURS[tone] }))
     .filter((row) => row.value)
     .sort((a, b) => b.value - a.value);
-  const blank = rows.filter((lead) => !lead.status).length;
-  bars.push({ label: 'Nothing recorded', value: blank, colour: 'var(--field-line)' });
 
+  // Leads with nothing recorded are counted once, under What evidence there is
   const holder = document.getElementById('status-chart');
-  holder.replaceChildren(barList(bars.filter((row) => row.value)));
+  if (!bars.length) holder.replaceChildren(create('p', 'empty', 'Nobody has recorded a status on a lead in this selection.'));
+  else holder.replaceChildren(barList(bars));
 }
 
 function showSupply(rows) {

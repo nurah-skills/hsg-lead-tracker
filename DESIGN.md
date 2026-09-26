@@ -72,9 +72,9 @@ These are design decisions, not missing work:
 
 - **The menu** — a light column on `--card`, held off the page by a single hairline. The page you are on is a soft green pill with a thin green ring; everything else is `--muted` until you hover it. Seven pages have to fit without scrolling, so the gaps, the padding and the row height are sized against the window with `clamp()`, and two `max-height` steps draw it tighter on a short laptop screen. A finger still gets a 44px row through `@media (pointer: coarse)`.
 - **The page header** — the page name and its one-line note, closed by a hairline.
-- **`.tile`** — a figure with its name, a note under it, a small chart of the run behind it and an **(i)** that says what the figure counts and what it does not. On `--card` with `--shell`.
+- **`.tile`** — a figure with its name, one muted line under it giving its base, and an **(i)** that says what the figure counts and what it does not. No chart inside the card: where a figure has a breakdown, it is a panel on the same page, and a figure the banner already gives is not a card as well. On `--card` with `--shell`.
 - **Where to start** — a row of counts at the top of Daily actions, above the filters, each a link into the right group. It counts only things that are true right now.
-- **The filter bar** — period, college, salesperson and a search, shared by four pages through `assets/js/shared/leads.js` so they can never count the selection differently. The state lives in the query string. A salesperson's own name is set and locked, so the control shows the rule rather than hiding it.
+- **The filter bar** — period, college and a search in sight; the salesperson and saved views behind one **More filters** button that opens them in the row. It opens by itself when one of its filters is already set, and when closed says how many are on (*More filters · 1*). Shared by four pages through `assets/js/shared/leads.js` so they can never count the selection differently. The state lives in the query string. A salesperson's own name is set and locked, so the control shows the rule rather than hiding it. The line under the bar (*Showing 412 lead records · …*) appears only when something other than the default thirty days is on screen.
 - **Drill-down tiles** — `.status-tile` for a state or a waiting band, `.category-tile` for a kind of note or finding. Opening one puts the step in the address bar; a `.trail` above the heading names the way back.
 - **`.panel`** — the surface everything else sits in.
 - **Card art** — the dark green block on a category tile. It takes `--navy` to `--navy-deep` and `--on-navy` for its text, so it follows the palette rather than carrying a colour of its own.
@@ -91,7 +91,7 @@ Every link to a stylesheet, a script or the logo carries `?v=` and a short hash 
 
 ## Motion
 
-Almost none, and always short: 0.15s ease on colour and shadow, and the menu drawer sliding in. `prefers-reduced-motion` turns transitions off. Nothing animates on load — the page is readable in its first frame.
+Almost none, and always short: 0.15s ease on colour and shadow, the menu drawer sliding in, and **More filters** fading its controls in over 150ms on `--ease-out` (opacity only, no slide). `prefers-reduced-motion` turns transitions off. Nothing animates on load — the page is readable in its first frame.
 
 ## Writing
 

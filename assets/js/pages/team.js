@@ -124,8 +124,8 @@ function showPerson() {
   const summary = personSummary(rows);
   buildTrail(document.getElementById('person-trail'), [{ label: 'By salesperson', path: [] }], (path) => Trail.back(path, () => readUrl(true)));
   document.getElementById('person-title').textContent = state.person;
-  document.getElementById('person-note').textContent =
-    `${COLLEGE_NAMES[COLLEGE_OF[state.person]]} · ${formatNumber(summary.leads)} lead records in this selection`;
+  // The college only: how many leads they were given is the first figure below
+  document.getElementById('person-note').textContent = COLLEGE_NAMES[COLLEGE_OF[state.person]];
 
   const tiles = [
     { label: 'Leads given', value: formatNumber(summary.leads), note: `${summary.perDay.toFixed(1)} a day`, icon: ICONS.rows, tone: 'is-info' },

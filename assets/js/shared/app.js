@@ -321,7 +321,7 @@ function exportButton(label, build) {
 let tileCount = 0;
 // `watch` makes a figure watchable: { value, unit, better }. The value is the raw
 // number behind the formatted one, because "4h" cannot be compared with anything.
-function statTile({ label, value, note, change, spark, sparkLabel, sparkMark = 'newest', about, watch }) {
+function statTile({ label, value, note, change, about, watch }) {
   const tile = create('div', 'tile');
   const badge = create('div', 'tile-badge');
   const name = create('span', '', label);
@@ -352,7 +352,6 @@ function statTile({ label, value, note, change, spark, sparkLabel, sparkMark = '
 
   const figure = create('div', 'tile-figure');
   figure.append(create('b', '', value));
-  if (spark) figure.append(sparkline(spark, sparkLabel || label, sparkMark));
 
   const foot = create('div', 'tile-foot');
   if (change) foot.append(statusChip(change));

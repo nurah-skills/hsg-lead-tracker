@@ -43,6 +43,8 @@
   --mono: "Geist Mono", ui-monospace, "Cascadia Mono", monospace; /* Figures that should read like an instrument. */
   --shadow-focus: 0 0 0 3px rgba(47, 111, 235, .25); /* Fields on focus, with an accent border. */
   --shell: 0 1px 2px rgba(15, 23, 42, .05);
+  --line-strong: #D5D9E0; /* An open control's edge, a hovered tile's edge. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1); /* The one curve for anything that enters. */
   --ring-accent: #2F6FEB;
   --ring-good: #22A55A;
   --ring-warn: #F0A020;
@@ -911,6 +913,7 @@ textarea.input { resize: vertical; min-height: 120px; line-height: 1.5; }
 
 /* Mailer board */
 .tiles-four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.tiles-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .span-6 { grid-column: span 6; }
 .decision-list,
 .gap-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
@@ -929,7 +932,8 @@ textarea.input { resize: vertical; min-height: 120px; line-height: 1.5; }
 }
 
 @media (max-width: 560px) {
-  .tiles-four { grid-template-columns: minmax(0, 1fr); }
+  .tiles-four,
+  .tiles-three { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* Links to the other boards, the header tools and the overview grid */
@@ -1249,12 +1253,9 @@ textarea.input { resize: vertical; min-height: 120px; line-height: 1.5; }
   .search-results { width: 100%; }
 }
 
-/* A figure, the run behind it, and an explanation you can open */
+/* A figure and an explanation you can open */
 .tile-figure { display: flex; align-items: flex-end; justify-content: space-between; gap: 14px; min-height: 38px; }
 .tile-figure b { margin: 0; }
-.spark { display: flex; align-items: flex-end; gap: 3px; flex: none; width: 74px; height: 38px; }
-.spark span { flex: 1; min-width: 0; border-radius: 2px 2px 0 0; background: var(--accent-soft); }
-.spark span.is-marked { background: var(--accent); }
 .tile-badge > span { display: inline-flex; align-items: center; gap: 6px; }
 .tile-about-open {
   display: inline-grid;
@@ -1575,3 +1576,14 @@ h1 { letter-spacing: -.02em; font-weight: 650; }
 
   @page { margin: 14mm; }
 }
+
+/* More filters: the salesperson and saved views, opened from one button. It is opened a
+   few times a day, so the controls fade in (150ms, the board's ease-out) rather than
+   popping, and do not slide: the row reflows around them either way. */
+.more-filter-set:not([hidden]) { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; transition: opacity 150ms var(--ease-out); }
+@starting-style { .more-filter-set:not([hidden]) { opacity: 0; } }
+.more-filters[aria-expanded="true"] { background: var(--subtle); border-color: var(--line-strong); }
+@media (max-width: 560px) {
+  .more-filter-set:not([hidden]) { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (prefers-reduced-motion: reduce) { .more-filter-set:not([hidden]) { transition: none; } }

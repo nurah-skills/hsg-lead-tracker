@@ -31,7 +31,12 @@ function activeLeadFilters() {
   ].filter(Boolean);
 }
 
-// One line under the filters saying what is on screen and what is filtering it
+// Something other than the usual thirty days, every college and everyone, is on screen
+const leadsFiltered = () => activeLeadFilters().length > 0 || leadState.range !== 'month';
+
+// One line under the filters saying what is on screen and what is filtering it. With
+// nothing filtered the figures already say how many they count, so the line only shows
+// when it says something the page does not.
 function showLeadNote(id, rows) {
   const holder = document.getElementById(id);
   if (!holder) return;
@@ -39,12 +44,33 @@ function showLeadNote(id, rows) {
   const period = leadState.range === 'all' ? 'every day the board has read'
     : leadState.range === 'today' ? `today, ${readable(SNAPSHOT.today)}`
       : `the last ${rangeLabel().toLowerCase()} to ${readable(SNAPSHOT.today)}`;
-  holder.textContent = filters.length
-    ? `${formatNumber(rows.length)} lead records · ${period} · filtered by ${filters.join(' and ')}`
-    : `${formatNumber(rows.length)} lead records · ${period}`;
+  holder.textContent = `Showing ${formatNumber(rows.length)} lead records · ${period}`
+    + (filters.length ? ` · filtered by ${filters.join(' and ')}` : '');
+  holder.hidden = !leadsFiltered();
+}
 
+// The state of the filter row itself, redrawn whenever a filter moves: whether
+// "Show everything" has anything to undo, and what "More filters" is holding.
+function showFilterState() {
   const clear = document.getElementById('filters-clear');
-  if (clear) clear.hidden = !filters.length && leadState.range === 'month';
+  if (clear) clear.hidden = !leadsFiltered();
+  showMoreFilters();
+}
+
+// The salesperson and saved views live behind "More filters". A filter that is set is
+// never out of sight: the button opens by itself on arrival and says how many are on.
+let moreFiltersOpen = null;
+function showMoreFilters() {
+  const button = document.getElementById('more-filters');
+  const set = document.getElementById('more-filter-set');
+  if (!button || !set) return;
+  const on = leadState.person !== 'All' && !viewer.person ? 1 : 0;
+  // Opens by itself on arrival when one of its filters is already set (a shared link, a
+  // saved view); after that it stays however it was left.
+  if (moreFiltersOpen === null) moreFiltersOpen = on > 0;
+  set.hidden = !moreFiltersOpen;
+  button.setAttribute('aria-expanded', String(moreFiltersOpen));
+  button.textContent = moreFiltersOpen ? 'Fewer filters' : on ? `More filters · ${on}` : 'More filters';
 }
 
 function clearLeadFilters(redraw) {
@@ -83,7 +109,8 @@ function fillLeadSelect(id, label, options, value, onChange) {
 }
 
 // Wires up whichever of the four controls the page actually has
-function setUpLeadFilters(redraw) {
+function setUpLeadFilters(draw) {
+  const redraw = () => { draw(); showFilterState(); };
   buildRangePicker(redraw);
 
   fillLeadSelect('college-filter', 'All colleges', COLLEGES.map((key) => [key, COLLEGE_NAMES[key]]), leadState.college, (value) => {
@@ -121,6 +148,16 @@ function setUpLeadFilters(redraw) {
 
   const clear = document.getElementById('filters-clear');
   if (clear) clear.addEventListener('click', () => clearLeadFilters(redraw));
+
+  const more = document.getElementById('more-filters');
+  if (more) {
+    more.addEventListener('click', () => {
+      moreFiltersOpen = !moreFiltersOpen;
+      showMoreFilters();
+      if (moreFiltersOpen) document.getElementById('person-filter')?.focus();
+    });
+  }
+  showFilterState();
 }
 
 // The words a lead's evidence gets, wherever it is shown
