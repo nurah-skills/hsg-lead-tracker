@@ -64,6 +64,10 @@ function showStartHere(rows) {
   }));
 }
 
+function redrawTiles() {
+  showTiles(leadRows());
+}
+
 function showTiles(rows) {
   const totals = totalsFor(rows);
   const speed = speedOf(rows);
@@ -73,6 +77,7 @@ function showTiles(rows) {
     {
       label: 'Lead records', icon: ICONS.rows, tone: 'is-info',
       value: formatNumber(totals.leads),
+      watch: { value: totals.leads, unit: 'records', better: null },
       note: `${formatNumber(totals.people)} salespeople · ${formatNumber(totals.forms)} forms`,
       spark: days.map((date) => rows.filter((lead) => lead.date === date).length),
       sparkLabel: 'Leads arriving on each of the last ten days',
@@ -81,6 +86,7 @@ function showTiles(rows) {
     {
       label: 'Something recorded', icon: ICONS.check, tone: 'is-good',
       value: formatPercent(totals.workedRate),
+      watch: { value: Math.round(totals.workedRate * 100), unit: 'per cent', better: 'above' },
       note: `${formatNumber(totals.worked)} of ${formatNumber(totals.leads)} records`,
       spark: WORKED_STATUSES.map((status) => rows.filter((lead) => lead.status === status).length),
       sparkLabel: 'How many carry each status', sparkMark: 'biggest',
@@ -89,6 +95,7 @@ function showTiles(rows) {
     {
       label: 'Nothing after 7 days', icon: ICONS.alert, tone: 'is-warn',
       value: formatNumber(totals.stale),
+      watch: { value: totals.stale, unit: 'records', better: 'below' },
       note: 'Counted from the submission date to today',
       spark: AGE_BANDS.map(([key]) => rows.filter((lead) => !lead.status && bandOf(lead.waitingDays) === key).length),
       sparkLabel: 'Leads with nothing recorded, by how long they have waited', sparkMark: 'biggest',
@@ -97,6 +104,7 @@ function showTiles(rows) {
     {
       label: 'Days to first evidence', icon: ICONS.clock, tone: '',
       value: speed ? formatNumber(speed.middle) : '—',
+      watch: { value: speed ? speed.middle : null, unit: 'days', better: 'below' },
       note: speed ? `middle of ${formatNumber(speed.count)} dated records · ${formatNumber(speed.sameDay)} same day` : 'no dated records in this selection',
       about: 'The middle value, not the average, so one very old lead cannot drag it. Only records carrying both a status and a date can be measured at all.'
     }
