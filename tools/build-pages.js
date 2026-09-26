@@ -8,6 +8,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { execFileSync } = require('child_process');
 
 const root = path.join(__dirname, '..');
 
@@ -378,6 +379,14 @@ ${range}          <label class="sr-only" for="college-filter">College</label>
           <div class="views" id="saved-views"></div>
           <button class="button button-secondary button-inline" id="filters-clear" type="button" hidden>Show everything</button>
         </div>`;
+}
+
+// Before anything is written: every tile has to be able to say what it does not prove.
+try {
+  execFileSync(process.execPath, [path.join(__dirname, 'check-tiles.js')], { stdio: 'inherit' });
+} catch (error) {
+  console.error('Nothing was built.');
+  process.exit(1);
 }
 
 PAGES.forEach((page) => {
