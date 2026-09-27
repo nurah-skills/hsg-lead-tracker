@@ -15,7 +15,7 @@ function questions(rows) {
       state: openForms.length ? { tone: 'changed', text: 'Not settled' } : { tone: 'good', text: 'Nothing open' },
       detail: 'Nothing here compares submission numbers against what landed in a sheet, so a missing lead would not show up.',
       action: 'Settle the findings on the forms first. Until a form is confirmed, its leads cannot be counted with any confidence.',
-      link: ['forms.html', 'Open forms and alerts']
+      link: null
     },
     {
       title: 'Who owns it?',
@@ -31,14 +31,14 @@ function questions(rows) {
       state: totals.workedRate < 0.25 ? { tone: 'changed', text: 'Thin' } : { tone: 'good', text: 'Recorded' },
       detail: 'A blank row does not prove nobody phoned. It proves nobody wrote it down.',
       action: 'Agree that a status and a date go on the row at the time, not at the end of the week.',
-      link: ['team.html', 'Open it by salesperson']
+      link: null
     },
     {
       title: 'Did it become a sale?',
       state: { tone: 'info', text: 'Not joined up' },
       detail: 'Registrations are not matched to the original submissions anywhere on this board. A row marked Sale is what the salesperson recorded, and nothing has checked it.',
       action: 'Match registrations to submission numbers before anyone quotes a conversion rate. This board will not work one out until then.',
-      link: ['sources.html', 'Open sources and coverage']
+      link: null
     },
     {
       title: 'Were the repairs checked?',
@@ -134,9 +134,13 @@ function showQuestions(rows) {
     const entry = create('li');
     const top = create('div', 'decision-top');
     top.append(create('h3', '', item.title), statusChip(item.state));
-    const link = create('a', 'text-link', item.link[1]);
-    link.href = item.link[0];
-    entry.append(top, create('p', '', item.detail), create('p', 'panel-note', item.action), link);
+    entry.append(top, create('p', '', item.detail), create('p', 'panel-note', item.action));
+    // Only a link to a filtered view: a plain page is already in the menu.
+    if (item.link) {
+      const link = create('a', 'text-link', item.link[1]);
+      link.href = item.link[0];
+      entry.append(link);
+    }
     holder.append(entry);
   });
 }

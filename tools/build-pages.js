@@ -177,7 +177,6 @@ ${filters()}
           <section class="panel span-7" aria-labelledby="status-title">
             <div class="panel-head">
               <h2 id="status-title">What people recorded</h2>
-              <a class="text-link" href="notes.html">Open the notes</a>
             </div>
             <div id="status-chart"></div>
             <p class="panel-note">The latest status on each lead that carries one. Leads with none are under What evidence there is.</p>
